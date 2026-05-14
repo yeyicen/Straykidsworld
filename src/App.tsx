@@ -828,12 +828,14 @@ const FanZone = () => {
           </AnimatePresence>
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full px-8 py-6 text-lg font-bold shadow-lg shadow-red-600/20">
-                <Plus className="w-5 h-5 mr-2" />
-                {t('fanZone.uploadCta')}
-              </Button>
-            </DialogTrigger>
+            <DialogTrigger 
+              render={
+                <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full px-8 py-6 text-lg font-bold shadow-lg shadow-red-600/20">
+                  <Plus className="w-5 h-5 mr-2" />
+                  {t('fanZone.uploadCta')}
+                </Button>
+              }
+            />
             <DialogContent className="sm:max-w-[500px] bg-card dark:bg-zinc-900 border-border dark:border-white/10">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold text-foreground">{t('fanZone.uploadTitle')}</DialogTitle>
