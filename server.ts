@@ -1,19 +1,32 @@
 import express from 'express';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import * as fs from 'fs';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Serve static files from the same directory as the server (which will be 'dist' in production)
-app.use(express.static(__dirname));
+const distPath = path.resolve(process.cwd(), 'dist');
 
-// Handle SPA routing
+console.log('Server starting...');
+console.log('Current working directory:', process.cwd());
+console.log('Dist path:', distPath);
+
+// Verify dist directory exists
+if (!fs.existsSync(distPath)) {
+  console.error('Error: dist directory not found at', distPath);
+  process.exit(1);
+}
+
+// Serve static files from the 'dist' directory
+app.use(express.static(distPath));
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  const indexPath = path.join(distPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('Not Found');
+  }
 });
 
 app.listen(port, () => {
